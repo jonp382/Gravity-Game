@@ -28,13 +28,6 @@ public partial class Player : RigidBody2D
 		Sprite = GetNode<Sprite2D>("Sprite2D");
 	}
 
-	public void OnBodyEntered(Node2D Body)
-	{
-		// Hide();
-		// EmitSignal(SignalName.Hit);
-		// GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
-	}
-
 	public void Start(Vector2 position)
 	{
 		Position = position;
@@ -42,16 +35,8 @@ public partial class Player : RigidBody2D
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		
-	}
-
     public override void _PhysicsProcess(double delta)
     {
-        
-
 		AdjustRotation();
 
 

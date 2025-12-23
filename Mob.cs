@@ -19,6 +19,6 @@ public partial class Mob : RigidBody2D
 		Vector2 ScaleFactor = new Vector2(Mathf.Max(RandomFactor/10, 0.5f), Mathf.Max(RandomFactor/10, 0.5f));
 		Sprite.ApplyScale(ScaleFactor);
 		Collision.ApplyScale(ScaleFactor);
-		player = Main.player; //GetNode<Player>("Player");
+		player = Main.player; 
 	}
 }

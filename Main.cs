@@ -53,8 +53,6 @@ public partial class Main : Node
 		BottomCollision.Position = new Vector2(ScreenSize.X / 2, ScreenSize.Y - 5);
 		LeftCollision.Position = new Vector2(5, ScreenSize.Y / 2);
 		RightCollision.Position = new Vector2(ScreenSize.X - 5, ScreenSize.Y / 2);
-
-		// NewGame();
 	}
 
 	public void GameOver()
@@ -89,9 +87,6 @@ public partial class Main : Node
 
 		var AllBodies = new List<RigidBody2D> { player };
 		AllBodies.AddRange(MobNodes.Cast<RigidBody2D>());
-
-		// GD.Print($"{AllBodies.Count} bodies");
-
 		
 		int n = AllBodies.Count;
 
