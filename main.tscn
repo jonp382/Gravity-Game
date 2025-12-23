@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://dgei3sdvi5j3i"]
+
+[ext_resource type="Script" uid="uid://boctv7tc8sawt" path="res://Main.cs" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://ragkdgea1jvl" path="res://mob.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://bm2crvtoqylah" path="res://player.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://bbbl7kd0gfwea" path="res://hud.tscn" id="4_1bvp3"]
+[ext_resource type="PhysicsMaterial" uid="uid://dr6makdvj07fv" path="res://BorderWall.tres" id="5_lquwl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
+size = Vector2(1920, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
+size = Vector2(5, 1080)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_272bh"]
+size = Vector2(5, 1080)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_0xm2m")
+MobScene = ExtResource("2_1bvp3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13319641, 0.13319641, 0.13319638, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_h2yge")]
+
+[node name="StartTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="StartPosition" type="Marker2D" parent="."]
+position = Vector2(240, 450)
+
+[node name="HUD" parent="." instance=ExtResource("4_1bvp3")]
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="TopWall" type="StaticBody2D" parent="Walls"]
+physics_material_override = ExtResource("5_lquwl")
+
+[node name="TopCollision" type="CollisionShape2D" parent="Walls/TopWall"]
+position = Vector2(955.5, 5)
+shape = SubResource("RectangleShape2D_lquwl")
+
+[node name="LeftWall" type="StaticBody2D" parent="Walls"]
+physics_material_override = ExtResource("5_lquwl")
+
+[node name="LeftCollision" type="CollisionShape2D" parent="Walls/LeftWall"]
+position = Vector2(5, 540)
+shape = SubResource("RectangleShape2D_7mycd")
+
+[node name="BottomWall" type="StaticBody2D" parent="Walls"]
+physics_material_override = ExtResource("5_lquwl")
+
+[node name="BottomCollision" type="CollisionShape2D" parent="Walls/BottomWall"]
+position = Vector2(955.5, 1075)
+shape = SubResource("RectangleShape2D_lquwl")
+
+[node name="RightWall" type="StaticBody2D" parent="Walls"]
+physics_material_override = ExtResource("5_lquwl")
+
+[node name="RightCollision" type="CollisionShape2D" parent="Walls/RightWall"]
+position = Vector2(1915, 540)
+shape = SubResource("RectangleShape2D_272bh")
+
+[connection signal="Hit" from="Player" to="." method="GameOver"]
+[connection signal="timeout" from="StartTimer" to="." method="OnStartTimerTimeout"]
+[connection signal="StartGame" from="HUD" to="." method="NewGame"]

@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bm2crvtoqylah"]
+
+[ext_resource type="Script" uid="uid://defqcnvhbj27y" path="res://Player.cs" id="1_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://cshlynyc6ihc7" path="res://art/player.png" id="2_onrkg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_onrkg"]
+friction = 0.2
+bounce = 0.1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sweqy"]
+radius = 34.0
+height = 68.0
+
+[node name="Player" type="RigidBody2D"]
+physics_material_override = SubResource("PhysicsMaterial_onrkg")
+gravity_scale = 0.0
+angular_damp = 2.0
+script = ExtResource("1_i3pqv")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("2_onrkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_sweqy")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
