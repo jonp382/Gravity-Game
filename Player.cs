@@ -10,7 +10,7 @@ public partial class Player : RigidBody2D
 	public Vector2 ScreenSize;
 	private float turnSpeed = 0.05f;
 	private float rotationDir = 0;
-	private Vector2 thrust = new(0,-40000);
+	private Vector2 thrust = new(0,-4000);
 
 	public bool NegativeMass = false;
 
@@ -23,7 +23,7 @@ public partial class Player : RigidBody2D
 	{
 		ScreenSize = GetViewportRect().Size;
 		Hide();
-		Mass = 1000;
+		Mass = 10;
 		Start(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
 		Sprite = GetNode<Sprite2D>("Sprite2D");
 	}

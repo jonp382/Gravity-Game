@@ -16,7 +16,7 @@ public partial class Main : Node
 
 	private int _score;
 
-	public static float GravConstant = 100f;
+	public static float GravConstant = 1000f;
 
 	public static bool gameInitialized = false;
 
