@@ -55,6 +55,8 @@ public partial class Main : Node
 		Vector2[] positions = new Vector2[n];
 		Vector2[] Forces = new Vector2[n];
 		float[] masses = new float[n];
+		Color[] Colors = new Color[n];
+
 
 		for(int i = 0; i < n; i++)
 		{
@@ -64,6 +66,7 @@ public partial class Main : Node
 
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
+			Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 1), 1, 1, 1);
 			
 
 		}
@@ -111,6 +114,10 @@ public partial class Main : Node
 			if(Body1 is Player player && player.NegativeMass) Force = -Force;
 
 			Body1.ApplyCentralForce(Force);
+			// Sprite2D Sprite1 = GetNode<Sprite2D>(Body1.Name + "/Sprite2D");
+			// Sprite1.Modulate
+			Body1.Modulate = Colors[i];
+			
 		}
 
 	}
