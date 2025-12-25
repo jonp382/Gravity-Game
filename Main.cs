@@ -66,7 +66,7 @@ public partial class Main : Node
 
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
-			Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 1), 1, 1, 1);
+			Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
 			
 
 		}
