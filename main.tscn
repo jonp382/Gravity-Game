@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dgei3sdvi5j3i"]
+[gd_scene load_steps=8 format=3 uid="uid://dgei3sdvi5j3i"]
 
 [ext_resource type="Script" uid="uid://boctv7tc8sawt" path="res://Main.cs" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://ragkdgea1jvl" path="res://mob.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bm2crvtoqylah" path="res://player.tscn" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://bbbl7kd0gfwea" path="res://hud.tscn" id="4_1bvp3"]
 [ext_resource type="PhysicsMaterial" uid="uid://dr6makdvj07fv" path="res://BorderWall.tres" id="5_lquwl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
@@ -34,8 +33,6 @@ one_shot = true
 
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(240, 450)
-
-[node name="HUD" parent="." instance=ExtResource("4_1bvp3")]
 
 [node name="Walls" type="Node2D" parent="."]
 
@@ -69,4 +66,3 @@ shape = SubResource("RectangleShape2D_272bh")
 
 [connection signal="Hit" from="Player" to="." method="GameOver"]
 [connection signal="timeout" from="StartTimer" to="." method="OnStartTimerTimeout"]
-[connection signal="StartGame" from="HUD" to="." method="NewGame"]

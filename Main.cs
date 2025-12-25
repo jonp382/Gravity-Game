@@ -29,63 +29,25 @@ public partial class Main : Node
 		GD.Print("Running Main.CS Ready()...");
 		ScreenSize = DisplayServer.WindowGetSize();
 
-		CollisionShape2D TopCollision = GetNode<CollisionShape2D>("Walls/TopWall/TopCollision");
-		CollisionShape2D BottomCollision = GetNode<CollisionShape2D>("Walls/BottomWall/BottomCollision");
-		CollisionShape2D LeftCollision = GetNode<CollisionShape2D>("Walls/LeftWall/LeftCollision");
-		CollisionShape2D RightCollision = GetNode<CollisionShape2D>("Walls/RightWall/RightCollision");
+		SetWorldBoundaries();
 
-		List<CollisionShape2D> HorizontalWorldBorders = [TopCollision, BottomCollision];
-		List<CollisionShape2D> VerticalWorldBorders = [LeftCollision, RightCollision];
-
-		foreach (CollisionShape2D Collision in HorizontalWorldBorders)
+		for(int i = 0; i < MaxNumberOfMobs; i++)
 		{
-			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(ScreenSize.X, 5);
+			GD.Print($"Generating mob {i}");
+			GenerateMobs();	
 		}
-
-		foreach (CollisionShape2D Collision in VerticalWorldBorders)
-		{
-			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(5, ScreenSize.Y);
-		}
-
-		GD.Print($"Screen Size: {ScreenSize}");
-
-		TopCollision.Position = new Vector2(ScreenSize.X / 2, 5);
-		BottomCollision.Position = new Vector2(ScreenSize.X / 2, ScreenSize.Y - 5);
-		LeftCollision.Position = new Vector2(5, ScreenSize.Y / 2);
-		RightCollision.Position = new Vector2(ScreenSize.X - 5, ScreenSize.Y / 2);
-	}
-
-	public void GameOver()
-	{
-		GetNode<Hud>("HUD").ShowGameOver();
-
-	}
-
-	public void NewGame()
-	{
-		gameInitialized = false;
-		_score = 0;
-
-		player = null;
+		MobNodes = GetTree().GetNodesInGroup("mobs");
 		player = GetNode<Player>("Player");
-		var startPosition = GetNode<Marker2D>("StartPosition");
-
-		player.Start(startPosition.Position);
-
-		var hud = GetNode<Hud>("HUD");
-		hud.UpdateScore(_score);
-		hud.ShowMessage("Get Ready!");
-		GetTree().CallGroup("mobs", Node.MethodName.QueueFree);
-
-		GetNode<Timer>("StartTimer").Start();
-
+		gameInitialized = true;
+		
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if(!gameInitialized) return;
 
-		var AllBodies = new List<RigidBody2D> { player };
+		var AllBodies = new List<RigidBody2D>();
+		AllBodies.Add(player);
 		AllBodies.AddRange(MobNodes.Cast<RigidBody2D>());
 		
 		int n = AllBodies.Count;
@@ -98,8 +60,11 @@ public partial class Main : Node
 		{
 
 			RigidBody2D Body = AllBodies[i];
+			if(Body == null) GD.Print($"Error with {i}");
+
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
+			
 
 		}
 
@@ -150,25 +115,32 @@ public partial class Main : Node
 
 	}
 
-
-	private void OnStartTimerTimeout()
-	{
-
-		for(int i = 0; i < MaxNumberOfMobs; i++)
-		{
-			GD.Print($"Generating mob {i}");
-			GenerateMobs();	
-		}
-		MobNodes = GetTree().GetNodesInGroup("mobs");
-		gameInitialized = true;
-	}
-
 	private void SetWorldBoundaries()
 	{
-		CollisionShape2D TopCollision = GetNode<CollisionShape2D>("TopCollision");
-		CollisionShape2D LeftCollision = GetNode<CollisionShape2D>("LeftCollision");
-		CollisionShape2D BottomCollision = GetNode<CollisionShape2D>("BottomCollision");
-		CollisionShape2D RightCollision = GetNode<CollisionShape2D>("RightCollision");
+		CollisionShape2D TopCollision = GetNode<CollisionShape2D>("Walls/TopWall/TopCollision");
+		CollisionShape2D BottomCollision = GetNode<CollisionShape2D>("Walls/BottomWall/BottomCollision");
+		CollisionShape2D LeftCollision = GetNode<CollisionShape2D>("Walls/LeftWall/LeftCollision");
+		CollisionShape2D RightCollision = GetNode<CollisionShape2D>("Walls/RightWall/RightCollision");
+
+		List<CollisionShape2D> HorizontalWorldBorders = [TopCollision, BottomCollision];
+		List<CollisionShape2D> VerticalWorldBorders = [LeftCollision, RightCollision];
+
+		foreach (CollisionShape2D Collision in HorizontalWorldBorders)
+		{
+			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(ScreenSize.X, 5);
+		}
+
+		foreach (CollisionShape2D Collision in VerticalWorldBorders)
+		{
+			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(5, ScreenSize.Y);
+		}
+
+		GD.Print($"Screen Size: {ScreenSize}");
+
+		TopCollision.Position = new Vector2(ScreenSize.X / 2, 5);
+		BottomCollision.Position = new Vector2(ScreenSize.X / 2, ScreenSize.Y - 5);
+		LeftCollision.Position = new Vector2(5, ScreenSize.Y / 2);
+		RightCollision.Position = new Vector2(ScreenSize.X - 5, ScreenSize.Y / 2);
 	}
 
 	private void GenerateMobs()
