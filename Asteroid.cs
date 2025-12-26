@@ -40,18 +40,14 @@ public partial class Asteroid : RigidBody2D
 		if(NodeTouched is Asteroid) return;
 		if(NodeTouched is Planet planet)
 		{
-			ticksTouchingPlanet++;
-			if(ticksTouchingPlanet > 0) 
-			{
 
-				// Safe to assume the asteroid will always be smaller than the planet.
-				
-				planet.Mass += this.Mass;
-				planet.UpdateScale();
+			// Safe to assume the asteroid will always be smaller than the planet.
+			
+			planet.Mass += this.Mass;
+			planet.UpdateScale();
 
-				GD.Print($"Asteroid touching {planet.Name} - adding {this.Mass} - new mass: {planet.Mass}");
-				this.shouldRemove = true;
-			}
+			this.shouldRemove = true;
+			
 		}
 		else
 		{
