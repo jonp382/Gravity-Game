@@ -102,11 +102,11 @@ public partial class Main : Node
 		for(int i = 0; i < n; i++)
 		{
 
-			RigidBody2D Body = AllBodies[i];
+			RigidBody2D Body;
+			try { Body = AllBodies[i]; } catch { continue; }
 			if(Body == null) 
 			{
 				AllBodies.RemoveAt(i);
-				n--;
 				continue;
 			}
 
@@ -116,6 +116,7 @@ public partial class Main : Node
 				{
 					planet.QueueFree();
 					AllPlanets.Remove(planet);
+					AllBodies.RemoveAt(i);
 					continue;
 				}
 			}
@@ -125,7 +126,7 @@ public partial class Main : Node
 				if (asteroid.shouldRemove)
 				{
 					asteroid.QueueFree();
-					AllBodies.Remove(asteroid);
+					AllBodies.RemoveAt(i);
 					continue;
 				}
 			}
@@ -137,6 +138,7 @@ public partial class Main : Node
 
 		}
 
+		n = AllBodies.Count;
 
 		Parallel.For(0, n, i => 
 		{

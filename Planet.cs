@@ -56,19 +56,19 @@ public partial class Planet : RigidBody2D
 
 	public void UpdateScale()
 	{
-
 		float uniformScale = Mathf.Clamp(Mass/ReferenceMass, 0.1f, 10f);
+		GD.Print($"Mass: {Mass} - Ratio: {Mass/ReferenceMass} - Scale: {uniformScale}");
 
 		foreach(var Node in GetChildren())
 		{
 			if(Node is Sprite2D sprite) 
 			{
-				sprite.ApplyScale(new Vector2(uniformScale, uniformScale));
+				sprite.Scale = new Vector2(uniformScale, uniformScale);
 				return;
 			}
 			else if (Node is CollisionShape2D collision)
 			{
-				collision.ApplyScale(new Vector2(uniformScale, uniformScale));
+				collision.Scale = new Vector2(uniformScale, uniformScale);
 			}
 			
 		}
