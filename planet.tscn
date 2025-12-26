@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://dpmp2vqdabnrh" path="res://art/Planet.png" id="2_mtr83"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nokgg"]
-friction = 0.02
-bounce = 0.4
+friction = 0.5
+bounce = 0.2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubaqv"]
 radius = 135.0

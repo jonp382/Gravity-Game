@@ -22,9 +22,6 @@ public partial class Main : Node
 
 	private Godot.Collections.Array<Node> AsteroidNodes = [];
 
-	public static Planet Earth;
-	public static Planet Moon;
-
 	public static List<Planet> AllPlanets = [];
 
 	Vector2 ScreenSize;
@@ -45,24 +42,29 @@ public partial class Main : Node
 		AsteroidNodes = GetTree().GetNodesInGroup("asteroids");
 		player = GetNode<Player>("Player");
 
-		Earth = GetNode<Planet>("Earth");
-		Earth.Mass = Mathf.Pow(10,24) * 5.972f;
-		Earth.ApplyColor(new Color(0, 1, 0.2f, 1));
-
-		Moon = GetNode<Planet>("Moon");
-		Moon.Mass = Mathf.Pow(10, 22)* 7.34767309f;
-		ScaleRigidBody(Moon, 0.5f);
-		Moon.ApplyColor(new Color(0.5f, 0.5f, 0.5f, 1));
-
-		AllPlanets.Add(Earth);
-		AllPlanets.Add(Moon);
-
-		Moon.LinearVelocity = new Vector2(0, 250);
+		GeneratePlanet("Earth", Mathf.Pow(10,24) * 5.972f, new Color(0, 1, 0.2f, 1), Vector2.Zero);
+		GeneratePlanet("Moon", Mathf.Pow(10, 22)* 7.34767309f, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 200), 0.5f);
 
 		gameInitialized = true;
 		
 	}
+	private void GeneratePlanet(String Name, float Mass, Color color, Vector2 InitialVelocity, float Scale = 1.0f)
+	{
+		var Planet = new Planet();
+		Planet = GetNode<Planet>(Name);
+		Planet.Mass = Mass;
+		Planet.ApplyColor(color);
 
+		if(Scale != 1.0f)
+		{
+			ScaleRigidBody(Planet, Scale);
+		}
+
+		Planet.LinearVelocity = InitialVelocity;
+
+		AllPlanets.Add(Planet);
+
+	}
 	private void ScaleRigidBody(RigidBody2D Body, float uniformScale)
 	{
 		foreach(var Node in Body.GetChildren())
@@ -86,10 +88,10 @@ public partial class Main : Node
 
 		var AllBodies = new List<RigidBody2D>
 		{
-			player,
-			Earth,
-			Moon
+			player
 		};
+		AllBodies.AddRange(AllPlanets);
+
 		AllBodies.AddRange(AsteroidNodes.Cast<RigidBody2D>());
 		
 		int n = AllBodies.Count;
