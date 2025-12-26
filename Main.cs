@@ -16,7 +16,7 @@ public partial class Main : Node
 
 	private int _score;
 
-	public static float GravConstant = 6.67430f * Mathf.Pow(10, -18.2f); // actual exponent is -11
+	public static float GravConstant = 200;
 
 	public static bool gameInitialized = false;
 
@@ -42,8 +42,8 @@ public partial class Main : Node
 		AsteroidNodes = GetTree().GetNodesInGroup("asteroids");
 		player = GetNode<Player>("Player");
 
-		GeneratePlanet("Earth", Mathf.Pow(10,24) * 5.972f, new Color(0, 1, 0.2f, 1), Vector2.Zero, 1.0f);
-		GeneratePlanet("Moon", Mathf.Pow(10, 22)* 7.34767309f, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 200), 0.5f);
+		GeneratePlanet("Earth", 100000, new Color(0, 1, 0.2f, 1), Vector2.Zero, 1.0f);
+		GeneratePlanet("Moon", 5000, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 200), 0.5f);
 
 		gameInitialized = true;
 		

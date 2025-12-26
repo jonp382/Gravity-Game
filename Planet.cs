@@ -9,7 +9,7 @@ public partial class Planet : RigidBody2D
 
 	public static int MaxSpeed = 600;
 
-	public static readonly float ReferenceMass = Mathf.Pow(10,24) * 5.972f; // Earth mass
+	public static readonly float ReferenceMass = 100000f; // Earth mass
 	public static readonly float ReferenceScale = 1.0f;
 
 	public Color color;
