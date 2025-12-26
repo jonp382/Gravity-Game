@@ -14,7 +14,7 @@ public partial class Planet : RigidBody2D
 		CollisionShape2D Collision = GetNode<CollisionShape2D>("CollisionShape2D");
 
 
-		Mass = 5000;
+		Mass = 1;
 		// Vector2 ScaleFactor = new Vector2(Mathf.Max(RandomFactor/10, 0.5f), Mathf.Max(RandomFactor/10, 0.5f));
 		// Sprite.ApplyScale(ScaleFactor);
 		// Collision.ApplyScale(ScaleFactor);

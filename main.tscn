@@ -67,7 +67,11 @@ position = Vector2(1915, 540)
 shape = SubResource("RectangleShape2D_272bh")
 
 [node name="Planet" parent="." instance=ExtResource("5_7mycd")]
-position = Vector2(974, 503)
+position = Vector2(1440, 723)
+script = ExtResource("6_272bh")
+
+[node name="Moon" parent="." instance=ExtResource("5_7mycd")]
+position = Vector2(1033, 496)
 script = ExtResource("6_272bh")
 
 [connection signal="Hit" from="Player" to="." method="GameOver"]

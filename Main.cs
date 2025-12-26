@@ -12,15 +12,18 @@ public partial class Main : Node
 	public PackedScene AsteroidScene { get; set; }
 
 	public static Player player;
-	public static int MaxNumberOfMobs = 1000;
+	public static int MaxNumberOfMobs = 200;
 
 	private int _score;
 
-	public static float GravConstant = 1000f;
+	public static float GravConstant = 6.67430f * Mathf.Pow(10, -18.2f); // actual exponent is -11
 
 	public static bool gameInitialized = false;
 
 	private Godot.Collections.Array<Node> MobNodes = [];
+
+	Planet Earth;
+	Planet Moon;
 
 	Vector2 ScreenSize;
 
@@ -29,25 +32,57 @@ public partial class Main : Node
 		GD.Print("Running Main.CS Ready()...");
 		ScreenSize = DisplayServer.WindowGetSize();
 
-		SetWorldBoundaries();
+		
+		SetWorldBoundaries(false); // set to false to disable world borders.
 
 		for(int i = 0; i < MaxNumberOfMobs; i++)
 		{
-			GD.Print($"Generating mob {i}");
+			// GD.Print($"Generating mob {i}");
 			GenerateMobs();	
 		}
 		MobNodes = GetTree().GetNodesInGroup("mobs");
 		player = GetNode<Player>("Player");
+
+		Earth = GetNode<Planet>("Planet");
+		Earth.Mass = Mathf.Pow(10,24) * 5.972f;
+
+		Moon = GetNode<Planet>("Moon");
+		Moon.Mass = Mathf.Pow(10, 22)* 7.34767309f;
+		ScaleRigidBody(Moon, 0.5f);
+
+		Moon.LinearVelocity = new Vector2(0, 250);
+
 		gameInitialized = true;
 		
+	}
+
+	private void ScaleRigidBody(RigidBody2D Body, float uniformScale)
+	{
+		foreach(var Node in Body.GetChildren())
+		{
+			if(Node is Sprite2D sprite) 
+			{
+				sprite.ApplyScale(new Vector2(uniformScale, uniformScale));
+				return;
+			}
+			else if (Node is CollisionShape2D collision)
+			{
+				collision.ApplyScale(new Vector2(uniformScale, uniformScale));
+			}
+			
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		if(!gameInitialized) return;
 
-		var AllBodies = new List<RigidBody2D>();
-		AllBodies.Add(player);
+		var AllBodies = new List<RigidBody2D>
+		{
+			player,
+			Earth,
+			Moon
+		};
 		AllBodies.AddRange(MobNodes.Cast<RigidBody2D>());
 		
 		int n = AllBodies.Count;
@@ -122,12 +157,32 @@ public partial class Main : Node
 
 	}
 
-	private void SetWorldBoundaries()
+	private void SetWorldBoundaries(bool Enabled = true)
 	{
+
 		CollisionShape2D TopCollision = GetNode<CollisionShape2D>("Walls/TopWall/TopCollision");
 		CollisionShape2D BottomCollision = GetNode<CollisionShape2D>("Walls/BottomWall/BottomCollision");
 		CollisionShape2D LeftCollision = GetNode<CollisionShape2D>("Walls/LeftWall/LeftCollision");
 		CollisionShape2D RightCollision = GetNode<CollisionShape2D>("Walls/RightWall/RightCollision");
+		
+		if (!Enabled)
+		{
+			List<CollisionShape2D> AllBorders = new List<CollisionShape2D>
+			{
+				TopCollision,
+				BottomCollision,
+				LeftCollision,
+				RightCollision
+			};
+
+			foreach(var border in AllBorders)
+			{
+				GD.Print($"Found node {border.Name}");
+				border.SetDeferred("disabled", true);				
+			}
+
+			return;
+		}
 
 		List<CollisionShape2D> HorizontalWorldBorders = [TopCollision, BottomCollision];
 		List<CollisionShape2D> VerticalWorldBorders = [LeftCollision, RightCollision];
@@ -164,7 +219,7 @@ public partial class Main : Node
 
 		mob.Position = mobSpawnLocation;
 
-		float RandomVelocity = 50f;
+		float RandomVelocity = 500f;
 
 		mob.LinearVelocity = new Vector2(GD.Randf() * RandomVelocity - RandomVelocity/2, GD.Randf() * RandomVelocity - RandomVelocity/2);
 		
