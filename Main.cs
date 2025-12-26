@@ -12,7 +12,7 @@ public partial class Main : Node
 	public PackedScene AsteroidScene { get; set; }
 
 	public static Player player;
-	public static int MaxNumberOfMobs = 1000;
+	public static int MaxNumberOfAsteroids = 1000;
 
 	private int _score;
 
@@ -20,7 +20,7 @@ public partial class Main : Node
 
 	public static bool gameInitialized = false;
 
-	private Godot.Collections.Array<Node> MobNodes = [];
+	private Godot.Collections.Array<Node> AsteroidNodes = [];
 
 	public static Planet Earth;
 	public static Planet Moon;
@@ -37,12 +37,12 @@ public partial class Main : Node
 		
 		SetWorldBoundaries(false); // set to false to disable world borders.
 
-		for(int i = 0; i < MaxNumberOfMobs; i++)
+		for(int i = 0; i < MaxNumberOfAsteroids; i++)
 		{
-			// GD.Print($"Generating mob {i}");
-			GenerateMobs();	
+			// GD.Print($"Generating asteroid {i}");
+			GenerateAsteroid();	
 		}
-		MobNodes = GetTree().GetNodesInGroup("mobs");
+		AsteroidNodes = GetTree().GetNodesInGroup("asteroids");
 		player = GetNode<Player>("Player");
 
 		Earth = GetNode<Planet>("Earth");
@@ -90,7 +90,7 @@ public partial class Main : Node
 			Earth,
 			Moon
 		};
-		AllBodies.AddRange(MobNodes.Cast<RigidBody2D>());
+		AllBodies.AddRange(AsteroidNodes.Cast<RigidBody2D>());
 		
 		int n = AllBodies.Count;
 
@@ -221,27 +221,27 @@ public partial class Main : Node
 		RightCollision.Position = new Vector2(ScreenSize.X - 5, ScreenSize.Y / 2);
 	}
 
-	public Asteroid GenerateMobs()
+	public Asteroid GenerateAsteroid()
 	{
-		Asteroid mob = AsteroidScene.Instantiate<Asteroid>();
+		Asteroid asteroid = AsteroidScene.Instantiate<Asteroid>();
 
-		Vector2 mobSpawnLocation = new(GD.Randf() * ScreenSize.X, GD.Randf() * ScreenSize.Y);
+		Vector2 asteroidspawnLocation = new(GD.Randf() * ScreenSize.X, GD.Randf() * ScreenSize.Y);
 
-		if (mobSpawnLocation.X <= 10) mobSpawnLocation.X += 10;
-		if (mobSpawnLocation.X >= 1910) mobSpawnLocation.X -= 10;
+		if (asteroidspawnLocation.X <= 10) asteroidspawnLocation.X += 10;
+		if (asteroidspawnLocation.X >= 1910) asteroidspawnLocation.X -= 10;
 
-		if (mobSpawnLocation.Y <= 10) mobSpawnLocation.Y += 10;
-		if (mobSpawnLocation.Y >= 1070) mobSpawnLocation.Y -= 10;
+		if (asteroidspawnLocation.Y <= 10) asteroidspawnLocation.Y += 10;
+		if (asteroidspawnLocation.Y >= 1070) asteroidspawnLocation.Y -= 10;
 
-		mob.Position = mobSpawnLocation;
+		asteroid.Position = asteroidspawnLocation;
 
 		float RandomVelocity = 500f;
 
-		mob.LinearVelocity = new Vector2(GD.Randf() * RandomVelocity - RandomVelocity/2, GD.Randf() * RandomVelocity - RandomVelocity/2);
+		asteroid.LinearVelocity = new Vector2(GD.Randf() * RandomVelocity - RandomVelocity/2, GD.Randf() * RandomVelocity - RandomVelocity/2);
 		
-		AddChild(mob);
+		AddChild(asteroid);
 
-		return mob;
+		return asteroid;
 
 		
 

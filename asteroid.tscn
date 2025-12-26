@@ -10,7 +10,7 @@ bounce = 0.4
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubaqv"]
 radius = 5.5
 
-[node name="Asteroid" type="RigidBody2D" groups=["mobs"]]
+[node name="Asteroid" type="RigidBody2D" groups=["asteroids"]]
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_nokgg")
 gravity_scale = 0.0
