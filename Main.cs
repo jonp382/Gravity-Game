@@ -43,7 +43,7 @@ public partial class Main : Node
 		player = GetNode<Player>("Player");
 
 		GeneratePlanet("Earth", 100000, new Color(0, 1, 0.2f, 1), Vector2.Zero, 1.0f);
-		GeneratePlanet("Moon", 5000, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 200), 0.5f);
+		GeneratePlanet("Moon", 5000, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 100), 0.5f);
 
 		gameInitialized = true;
 		
@@ -109,6 +109,17 @@ public partial class Main : Node
 				n--;
 				continue;
 			}
+
+			if(Body is Planet planet)
+			{
+				if (planet.shouldRemove)
+				{
+					planet.QueueFree();
+					AllPlanets.Remove(planet);
+					continue;
+				}
+			}
+
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
 			Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
