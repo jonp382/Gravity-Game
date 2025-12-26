@@ -28,7 +28,7 @@ project/assembly_name="Test Game"
 
 [global_group]
 
-mobs=""
+asteroids=""
 
 [input]
 

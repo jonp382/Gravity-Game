@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://ragkdgea1jvl"]
 
-[ext_resource type="Script" uid="uid://c7w01pfclri5d" path="res://Mob.cs" id="1_1qmh0"]
+[ext_resource type="Script" uid="uid://bcfk68d2b47ui" path="res://Asteroid.cs" id="1_p0ukn"]
 [ext_resource type="Texture2D" uid="uid://c71eftw73cwaj" path="res://art/SmallMob.png" id="2_nokgg"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nokgg"]
@@ -10,10 +10,13 @@ bounce = 0.4
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubaqv"]
 radius = 5.5
 
-[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+[node name="Asteroid" type="RigidBody2D" groups=["asteroids"]]
+collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_nokgg")
 gravity_scale = 0.0
-script = ExtResource("1_1qmh0")
+contact_monitor = true
+max_contacts_reported = 2
+script = ExtResource("1_p0ukn")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -23,3 +26,5 @@ shape = SubResource("CircleShape2D_ubaqv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_nokgg")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

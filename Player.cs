@@ -35,8 +35,8 @@ public partial class Player : RigidBody2D
 		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
+	public override void _PhysicsProcess(double delta)
+	{
 		AdjustRotation();
 
 
@@ -52,7 +52,7 @@ public partial class Player : RigidBody2D
 			NegativeMass = false;
 		}
 		
-    }
+	}
 
 	public void AdjustRotation()
 	{
