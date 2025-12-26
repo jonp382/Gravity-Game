@@ -42,23 +42,20 @@ public partial class Main : Node
 		AsteroidNodes = GetTree().GetNodesInGroup("asteroids");
 		player = GetNode<Player>("Player");
 
-		GeneratePlanet("Earth", Mathf.Pow(10,24) * 5.972f, new Color(0, 1, 0.2f, 1), Vector2.Zero);
+		GeneratePlanet("Earth", Mathf.Pow(10,24) * 5.972f, new Color(0, 1, 0.2f, 1), Vector2.Zero, 1.0f);
 		GeneratePlanet("Moon", Mathf.Pow(10, 22)* 7.34767309f, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 200), 0.5f);
 
 		gameInitialized = true;
 		
 	}
-	private void GeneratePlanet(String Name, float Mass, Color color, Vector2 InitialVelocity, float Scale = 1.0f)
+	private void GeneratePlanet(String Name, float Mass, Color color, Vector2 InitialVelocity, float Scale)
 	{
 		var Planet = new Planet();
 		Planet = GetNode<Planet>(Name);
 		Planet.Mass = Mass;
 		Planet.ApplyColor(color);
 
-		if(Scale != 1.0f)
-		{
-			ScaleRigidBody(Planet, Scale);
-		}
+		Planet.UpdateScale();
 
 		Planet.LinearVelocity = InitialVelocity;
 
