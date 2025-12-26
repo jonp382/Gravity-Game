@@ -60,9 +60,4 @@ public partial class Player : RigidBody2D
 		if(Input.IsActionPressed("move_left")) AngularVelocity -= turnSpeed;
 
 	}
-
-	public void MouseEntered()
-	{
-		
-	}
 }
