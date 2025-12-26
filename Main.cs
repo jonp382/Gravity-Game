@@ -43,7 +43,7 @@ public partial class Main : Node
 		player = GetNode<Player>("Player");
 
 		GeneratePlanet("Earth", 100000, new Color(0, 1, 0.2f, 1), Vector2.Zero, 1.0f);
-		GeneratePlanet("Moon", 5000, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 100), 0.5f);
+		GeneratePlanet("Moon", 20000, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 250), 0.5f);
 
 		gameInitialized = true;
 		
