@@ -9,7 +9,7 @@ public partial class Main : Node
 	// Don't forget to rebuild the project so the editor knows about the new export variable.
 
 	[Export]
-	public PackedScene MobScene { get; set; }
+	public PackedScene AsteroidScene { get; set; }
 
 	public static Player player;
 	public static int MaxNumberOfMobs = 1000;
@@ -152,8 +152,7 @@ public partial class Main : Node
 
 	private void GenerateMobs()
 	{
-
-		Mob mob = MobScene.Instantiate<Mob>();
+		Asteroid mob = AsteroidScene.Instantiate<Asteroid>();
 
 		Vector2 mobSpawnLocation = new(GD.Randf() * ScreenSize.X, GD.Randf() * ScreenSize.Y);
 

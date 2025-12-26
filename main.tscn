@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dgei3sdvi5j3i"]
+[gd_scene load_steps=10 format=3 uid="uid://dgei3sdvi5j3i"]
 
 [ext_resource type="Script" uid="uid://boctv7tc8sawt" path="res://Main.cs" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://ragkdgea1jvl" path="res://mob.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://ragkdgea1jvl" path="res://asteroid.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bm2crvtoqylah" path="res://player.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://c4cdq04eg2ouh" path="res://planet.tscn" id="5_7mycd"]
 [ext_resource type="PhysicsMaterial" uid="uid://dr6makdvj07fv" path="res://BorderWall.tres" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://cc24geye6xrc8" path="res://Planet.cs" id="6_272bh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lquwl"]
 size = Vector2(1920, 5)
@@ -16,7 +18,7 @@ size = Vector2(5, 1080)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_0xm2m")
-MobScene = ExtResource("2_1bvp3")
+AsteroidScene = ExtResource("2_1bvp3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -63,6 +65,10 @@ physics_material_override = ExtResource("5_lquwl")
 [node name="RightCollision" type="CollisionShape2D" parent="Walls/RightWall"]
 position = Vector2(1915, 540)
 shape = SubResource("RectangleShape2D_272bh")
+
+[node name="Planet" parent="." instance=ExtResource("5_7mycd")]
+position = Vector2(974, 503)
+script = ExtResource("6_272bh")
 
 [connection signal="Hit" from="Player" to="." method="GameOver"]
 [connection signal="timeout" from="StartTimer" to="." method="OnStartTimerTimeout"]

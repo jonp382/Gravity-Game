@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class Mob : RigidBody2D
+public partial class Asteroid : RigidBody2D
 {
 
 	public static int MaxSpeed = 600;

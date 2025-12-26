@@ -1,19 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://ragkdgea1jvl"]
+[gd_scene load_steps=5 format=3 uid="uid://c4cdq04eg2ouh"]
 
-[ext_resource type="Script" uid="uid://c7w01pfclri5d" path="res://Mob.cs" id="1_1qmh0"]
-[ext_resource type="Texture2D" uid="uid://c71eftw73cwaj" path="res://art/SmallMob.png" id="2_nokgg"]
+[ext_resource type="Script" uid="uid://bcfk68d2b47ui" path="res://Planet.cs" id="1_mtr83"]
+[ext_resource type="Texture2D" uid="uid://dpmp2vqdabnrh" path="res://art/Planet.png" id="2_mtr83"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_nokgg"]
 friction = 0.02
 bounce = 0.4
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ubaqv"]
-radius = 5.5
+radius = 135.0
 
-[node name="Mob" type="RigidBody2D" groups=["mobs"]]
+[node name="Planet" type="RigidBody2D" groups=["mobs"]]
 physics_material_override = SubResource("PhysicsMaterial_nokgg")
 gravity_scale = 0.0
-script = ExtResource("1_1qmh0")
+script = ExtResource("1_mtr83")
 metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -22,4 +22,4 @@ rotation = 1.5707964
 shape = SubResource("CircleShape2D_ubaqv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_nokgg")
+texture = ExtResource("2_mtr83")
