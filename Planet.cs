@@ -57,7 +57,7 @@ public partial class Planet : RigidBody2D
 	public void UpdateScale()
 	{
 		float uniformScale = Mathf.Clamp(Mass/ReferenceMass, 0.1f, 10f);
-		GD.Print($"Mass: {Mass} - Ratio: {Mass/ReferenceMass} - Scale: {uniformScale}");
+		// GD.Print($"Mass: {Mass} - Ratio: {Mass/ReferenceMass} - Scale: {uniformScale}");
 
 		foreach(var Node in GetChildren())
 		{
