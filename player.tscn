@@ -26,3 +26,4 @@ texture = ExtResource("2_onrkg")
 shape = SubResource("CapsuleShape2D_sweqy")
 
 [connection signal="body_entered" from="." to="." method="OnBodyEntered"]
+[connection signal="mouse_entered" from="." to="." method="OnMouseEntered"]

@@ -78,19 +78,14 @@ public partial class Hud : CanvasLayer
 		return closestPlanet;
 	}
 
-	public void ShowMessage(string text)
-	{
-		var message = GetNode<Label>("Message");
-		message.Text = text;
-		message.Show();
-
-		GetNode<Timer>("MessageTimer").Start();
-	}
-
 	public void UpdateSpeed()
 	{
 		var Speed = player.LinearVelocity.Length();
-		ShowMessage($"Current Speed: {Speed:F0}");
+		var text = $"Current Speed: {Speed:F0}";
+
+		var messageNode = GetNode<Label>("CurrentSpeed");
+		messageNode.Text = text;
+		messageNode.Show();
 	}
 
 }

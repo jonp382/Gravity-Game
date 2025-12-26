@@ -8,7 +8,7 @@
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_64ctp")
 
-[node name="Message" type="Label" parent="."]
+[node name="CurrentSpeed" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -23,9 +23,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="MessageTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
+[node name="Label" type="Label" parent="."]
+offset_left = 2418.0
+offset_top = 60.0
+offset_right = 2458.0
+offset_bottom = 83.0
 
 [node name="Compass_Icon" type="Sprite2D" parent="."]
 position = Vector2(2218, 79)
@@ -36,5 +38,3 @@ texture = ExtResource("3_640wx")
 position = Vector2(2352.0002, 71)
 scale = Vector2(5, 5)
 texture = ExtResource("4_a2258")
-
-[connection signal="timeout" from="MessageTimer" to="." method="OnMessageTimerTimeout"]
