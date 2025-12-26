@@ -1,62 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://bbbl7kd0gfwea"]
+[gd_scene load_steps=5 format=3 uid="uid://bbbl7kd0gfwea"]
 
 [ext_resource type="Script" uid="uid://diuw2lahv0q5f" path="res://Hud.cs" id="1_64ctp"]
 [ext_resource type="FontFile" uid="uid://ugguxnxl0mny" path="res://fonts/Xolonium-Regular.ttf" id="2_8sq4i"]
+[ext_resource type="Texture2D" uid="uid://dpmp2vqdabnrh" path="res://art/Planet.png" id="3_640wx"]
+[ext_resource type="Texture2D" uid="uid://drnvfffaoekee" path="res://art/Arrow.png" id="4_a2258"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_64ctp")
 
-[node name="ScoreLabel" type="Label" parent="."]
+[node name="Message" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -22.5
-offset_right = 22.5
-offset_bottom = 78.0
+offset_left = -406.5
+offset_right = 406.5
+offset_bottom = 84.0
 grow_horizontal = 2
 theme_override_fonts/font = ExtResource("2_8sq4i")
 theme_override_font_sizes/font_size = 64
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Message" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -120.0
-offset_right = 200.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_8sq4i")
-theme_override_font_sizes/font_size = 64
-text = "Dodge the Creeps!"
+text = "Current Speed:"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
-
-[node name="StartButton" type="Button" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_top = -100.0
-offset_right = 100.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_8sq4i")
-theme_override_font_sizes/font_size = 64
-text = "Start"
 
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
-[connection signal="pressed" from="StartButton" to="." method="OnStartButtonPressed"]
+[node name="Compass_Icon" type="Sprite2D" parent="."]
+position = Vector2(2218, 79)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_640wx")
+
+[node name="Compass_Arrow" type="Sprite2D" parent="."]
+position = Vector2(2352.0002, 71)
+scale = Vector2(5, 5)
+texture = ExtResource("4_a2258")
+
 [connection signal="timeout" from="MessageTimer" to="." method="OnMessageTimerTimeout"]

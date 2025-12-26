@@ -5,9 +5,10 @@ public partial class Planet : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 
 	public static int MaxSpeed = 600;
+	public Color color;
 
 	private Player player;
-		public override void _Ready()
+	public override void _Ready()
 	{
 		// float RandomFactor = Mathf.Clamp(GD.Randf() * 20, 1.0f, 20.0f);
 		Sprite2D Sprite =  GetNode<Sprite2D>("Sprite2D");
@@ -19,6 +20,19 @@ public partial class Planet : RigidBody2D
 		// Sprite.ApplyScale(ScaleFactor);
 		// Collision.ApplyScale(ScaleFactor);
 
+	}
+
+	public void ApplyColor(Color Col)
+	{
+		foreach(var node in GetChildren())
+		{
+			if(node is Sprite2D sprite)
+			{
+				sprite.Modulate = Col;
+				color = Col;
+				return;
+			}
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

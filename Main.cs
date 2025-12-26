@@ -22,8 +22,10 @@ public partial class Main : Node
 
 	private Godot.Collections.Array<Node> MobNodes = [];
 
-	public Planet Earth;
-	public Planet Moon;
+	public static Planet Earth;
+	public static Planet Moon;
+
+	public static List<Planet> AllPlanets = [];
 
 	Vector2 ScreenSize;
 
@@ -45,10 +47,15 @@ public partial class Main : Node
 
 		Earth = GetNode<Planet>("Earth");
 		Earth.Mass = Mathf.Pow(10,24) * 5.972f;
+		Earth.ApplyColor(new Color(0, 1, 0.2f, 1));
 
 		Moon = GetNode<Planet>("Moon");
 		Moon.Mass = Mathf.Pow(10, 22)* 7.34767309f;
 		ScaleRigidBody(Moon, 0.5f);
+		Moon.ApplyColor(new Color(0.5f, 0.5f, 0.5f, 1));
+
+		AllPlanets.Add(Earth);
+		AllPlanets.Add(Moon);
 
 		Moon.LinearVelocity = new Vector2(0, 250);
 
@@ -160,7 +167,7 @@ public partial class Main : Node
 			Body1.ApplyCentralForce(Force);
 			// Sprite2D Sprite1 = GetNode<Sprite2D>(Body1.Name + "/Sprite2D");
 			// Sprite1.Modulate
-			Body1.Modulate = Colors[i];
+			if(Body1 is not Planet) Body1.Modulate = Colors[i];
 			
 		}
 
