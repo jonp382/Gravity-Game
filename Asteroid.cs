@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 public partial class Asteroid : RigidBody2D
@@ -6,6 +7,8 @@ public partial class Asteroid : RigidBody2D
 	public static int MaxSpeed = 600;
 
 	private Player player;
+
+	public bool shouldRemove = false;
 
 	public int ticksTouchingPlanet = 0;
 
@@ -40,7 +43,14 @@ public partial class Asteroid : RigidBody2D
 			ticksTouchingPlanet++;
 			if(ticksTouchingPlanet > 0) 
 			{
-				QueueFree();	
+
+				// Safe to assume the asteroid will always be smaller than the planet.
+				
+				planet.Mass += this.Mass;
+				planet.UpdateScale();
+
+				GD.Print($"Asteroid touching {planet.Name} - adding {this.Mass} - new mass: {planet.Mass}");
+				this.shouldRemove = true;
 			}
 		}
 		else
