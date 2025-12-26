@@ -11,6 +11,7 @@ bounce = 0.4
 radius = 135.0
 
 [node name="Planet" type="RigidBody2D"]
+collision_layer = 3
 physics_material_override = SubResource("PhysicsMaterial_nokgg")
 gravity_scale = 0.0
 script = ExtResource("1_mtr83")

@@ -42,31 +42,31 @@ position = Vector2(240, 450)
 physics_material_override = ExtResource("5_lquwl")
 
 [node name="TopCollision" type="CollisionShape2D" parent="Walls/TopWall"]
-position = Vector2(955.5, 5)
+position = Vector2(945, -181)
 shape = SubResource("RectangleShape2D_lquwl")
 
 [node name="LeftWall" type="StaticBody2D" parent="Walls"]
 physics_material_override = ExtResource("5_lquwl")
 
 [node name="LeftCollision" type="CollisionShape2D" parent="Walls/LeftWall"]
-position = Vector2(5, 540)
+position = Vector2(-188, 523)
 shape = SubResource("RectangleShape2D_7mycd")
 
 [node name="BottomWall" type="StaticBody2D" parent="Walls"]
 physics_material_override = ExtResource("5_lquwl")
 
 [node name="BottomCollision" type="CollisionShape2D" parent="Walls/BottomWall"]
-position = Vector2(955.5, 1075)
+position = Vector2(940, -110)
 shape = SubResource("RectangleShape2D_lquwl")
 
 [node name="RightWall" type="StaticBody2D" parent="Walls"]
 physics_material_override = ExtResource("5_lquwl")
 
 [node name="RightCollision" type="CollisionShape2D" parent="Walls/RightWall"]
-position = Vector2(1915, 540)
+position = Vector2(-98, 501)
 shape = SubResource("RectangleShape2D_272bh")
 
-[node name="Planet" parent="." instance=ExtResource("5_7mycd")]
+[node name="Earth" parent="." instance=ExtResource("5_7mycd")]
 position = Vector2(1440, 723)
 script = ExtResource("6_272bh")
 

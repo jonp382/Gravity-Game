@@ -11,8 +11,11 @@ bounce = 0.4
 radius = 5.5
 
 [node name="Asteroid" type="RigidBody2D" groups=["mobs"]]
+collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_nokgg")
 gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 2
 script = ExtResource("1_p0ukn")
 metadata/_edit_group_ = true
 
@@ -23,3 +26,5 @@ shape = SubResource("CircleShape2D_ubaqv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_nokgg")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]

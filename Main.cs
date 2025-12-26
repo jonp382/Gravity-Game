@@ -12,7 +12,7 @@ public partial class Main : Node
 	public PackedScene AsteroidScene { get; set; }
 
 	public static Player player;
-	public static int MaxNumberOfMobs = 200;
+	public static int MaxNumberOfMobs = 1000;
 
 	private int _score;
 
@@ -22,8 +22,8 @@ public partial class Main : Node
 
 	private Godot.Collections.Array<Node> MobNodes = [];
 
-	Planet Earth;
-	Planet Moon;
+	public Planet Earth;
+	public Planet Moon;
 
 	Vector2 ScreenSize;
 
@@ -43,7 +43,7 @@ public partial class Main : Node
 		MobNodes = GetTree().GetNodesInGroup("mobs");
 		player = GetNode<Player>("Player");
 
-		Earth = GetNode<Planet>("Planet");
+		Earth = GetNode<Planet>("Earth");
 		Earth.Mass = Mathf.Pow(10,24) * 5.972f;
 
 		Moon = GetNode<Planet>("Moon");
@@ -97,8 +97,12 @@ public partial class Main : Node
 		{
 
 			RigidBody2D Body = AllBodies[i];
-			if(Body == null) GD.Print($"Error with {i}");
-
+			if(Body == null) 
+			{
+				AllBodies.RemoveAt(i);
+				n--;
+				continue;
+			}
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
 			Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
@@ -115,6 +119,8 @@ public partial class Main : Node
 			// call these once to save compute time
 			Vector2 Pos1 = positions[i];
 			float mass1 = masses[i];
+
+			 
 
 			for(int j = 0; j < n; j++)
 			{
@@ -142,8 +148,11 @@ public partial class Main : Node
 
 		for(int i = 0; i < n; i++)
 		{
+			RigidBody2D Body1;
 
-			RigidBody2D Body1 = (RigidBody2D)AllBodies[i];
+			Body1 = AllBodies[i];
+			if(Body1 == null) continue;
+
 			Vector2 Force = Forces[i];
 
 			if(Body1 is Player player && player.NegativeMass) Force = -Force;
@@ -205,7 +214,7 @@ public partial class Main : Node
 		RightCollision.Position = new Vector2(ScreenSize.X - 5, ScreenSize.Y / 2);
 	}
 
-	private void GenerateMobs()
+	public Asteroid GenerateMobs()
 	{
 		Asteroid mob = AsteroidScene.Instantiate<Asteroid>();
 
@@ -224,6 +233,8 @@ public partial class Main : Node
 		mob.LinearVelocity = new Vector2(GD.Randf() * RandomVelocity - RandomVelocity/2, GD.Randf() * RandomVelocity - RandomVelocity/2);
 		
 		AddChild(mob);
+
+		return mob;
 
 		
 

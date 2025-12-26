@@ -7,6 +7,8 @@ public partial class Asteroid : RigidBody2D
 
 	private Player player;
 
+	public int ticksTouchingPlanet = 0;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -20,5 +22,31 @@ public partial class Asteroid : RigidBody2D
 		Sprite.ApplyScale(ScaleFactor);
 		Collision.ApplyScale(ScaleFactor);
 		player = Main.player; 
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		if(!Main.gameInitialized) return;
+
+		
+	}
+
+	public void OnBodyEntered(Node NodeTouched)
+	{
+		if(NodeTouched is Player) return;
+		if(NodeTouched is Asteroid) return;
+		if(NodeTouched is Planet planet)
+		{
+			ticksTouchingPlanet++;
+			if(ticksTouchingPlanet > 0) 
+			{
+				QueueFree();	
+			}
+		}
+		else
+		{
+			GD.Print($"Contacting {NodeTouched.Name}");
+		}
+	
 	}
 }
