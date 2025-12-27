@@ -31,14 +31,6 @@ public partial class Planet : RigidBody2D
 		Sprite2D sprite = GetNode<Sprite2D>("Sprite2D");
 		sprite.Modulate = Col;
 		color = Col;
-		GD.Print($"Set planet {Name} to color {Col}");
-		// return;
-		// foreach(var node in GetChildren(true))
-		// {
-		// 	if(node is Sprite2D sprite)
-		// 	{
-		// 	}
-		// }
 	}
 
 	public override void _PhysicsProcess(double delta)
