@@ -24,10 +24,13 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Compass_Distance" type="Label" parent="."]
-offset_left = 2418.0
-offset_top = 60.0
-offset_right = 2458.0
-offset_bottom = 83.0
+offset_left = 2423.0
+offset_top = 41.0
+offset_right = 2537.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("2_8sq4i")
+theme_override_font_sizes/font_size = 32
+text = "10000"
 
 [node name="Compass_Icon" type="Sprite2D" parent="."]
 position = Vector2(2218, 79)

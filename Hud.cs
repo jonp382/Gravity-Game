@@ -90,6 +90,7 @@ public partial class Hud : CanvasLayer
 
 		Sprite2D Icon = GetNode<Sprite2D>("Compass_Icon");
 		Sprite2D Arrow = GetNode<Sprite2D>("Compass_Arrow");
+		Label Distance = GetNode<Label>("Compass_Distance");
 
 		if (ClosestPlanet == null)
 		{
@@ -107,6 +108,7 @@ public partial class Hud : CanvasLayer
 		angle = r.Angle();
 
 		Arrow.Rotation = angle + Mathf.Pi / 2f;
+		Distance.Text = ClosestPlanet.Position.DistanceTo(player.Position).ToString("F0");
 
 		Icon.Modulate = ClosestPlanet.color;
 	}
