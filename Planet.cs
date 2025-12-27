@@ -48,7 +48,7 @@ public partial class Planet : RigidBody2D
 		// Scale = (M/MRef) ^ (1/3.7)
 		// (1/3.7) is the empirical formula. adjusting for gameplay reasons.
 		// larger denominator means smaller scale adjustment.
-		float uniformScale = Mathf.Clamp((float)Mathf.Pow(Mass/ReferenceMass, 1/5.0), 0.1f, 10f);
+		float uniformScale = Mathf.Clamp((float)Mathf.Pow(Mass/ReferenceMass, 1/3.7f), 0.1f, 10f);
 		// GD.Print($"Mass: {Mass} - Ratio: {Mass/ReferenceMass} - Scale: {uniformScale}");
 		childScale = uniformScale;
 		foreach(var Node in GetChildren())
