@@ -247,13 +247,13 @@ public partial class Main : Node
 	{
 		Asteroid asteroid = AsteroidScene.Instantiate<Asteroid>();
 
-		Vector2 asteroidspawnLocation = new(GD.Randf() * ScreenSize.X, GD.Randf() * ScreenSize.Y);
+		Vector2 asteroidspawnLocation = new(GD.Randf() * 20000 - 10000, GD.Randf() * 20000 - 10000);
 
-		if (asteroidspawnLocation.X <= 10) asteroidspawnLocation.X += 10;
-		if (asteroidspawnLocation.X >= 1910) asteroidspawnLocation.X -= 10;
+		// if (asteroidspawnLocation.X <= 10) asteroidspawnLocation.X += 10;
+		// if (asteroidspawnLocation.X >= 1910) asteroidspawnLocation.X -= 10;
 
-		if (asteroidspawnLocation.Y <= 10) asteroidspawnLocation.Y += 10;
-		if (asteroidspawnLocation.Y >= 1070) asteroidspawnLocation.Y -= 10;
+		// if (asteroidspawnLocation.Y <= 10) asteroidspawnLocation.Y += 10;
+		// if (asteroidspawnLocation.Y >= 1070) asteroidspawnLocation.Y -= 10;
 
 		asteroid.Position = asteroidspawnLocation;
 
