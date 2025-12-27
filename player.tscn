@@ -8,7 +8,7 @@ friction = 0.2
 bounce = 0.1
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sweqy"]
-radius = 34.0
+radius = 28.0
 height = 68.0
 
 [node name="Player" type="RigidBody2D"]
