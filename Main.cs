@@ -6,13 +6,14 @@ using Godot;
 
 public partial class Main : Node
 {
-	// Don't forget to rebuild the project so the editor knows about the new export variable.
-
 	[Export]
 	public PackedScene AsteroidScene { get; set; }
 
+	[Export] public PackedScene PlanetScene { get; set; }
+
 	public static Player player;
 	public static int MaxNumberOfAsteroids = 1000;
+	public static int MaxNumberOfPlanets = 10;
 
 	private int _score;
 
@@ -42,24 +43,39 @@ public partial class Main : Node
 		AsteroidNodes = GetTree().GetNodesInGroup("asteroids");
 		player = GetNode<Player>("Player");
 
-		GeneratePlanet("Earth", 100000, new Color(0, 1, 0.2f, 1), Vector2.Zero, 1.0f);
-		GeneratePlanet("Moon", 20000, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 250), 0.5f);
+		for(int i = 0; i < MaxNumberOfPlanets; i++)
+		{
+			String name = "Planet " + i;
+			float mass = Math.Clamp(GD.Randf() * 500000, 10000, 500000);
+			Color col = new Color(GD.Randf() * 255, GD.Randf() * 255, GD.Randf() * 255, 1);
+			col = new Color(1,1,1,1);
+			Vector2 position = new Vector2(GD.Randf() * 10000, GD.Randf() * 10000);
+			Vector2 initialVelocity = new Vector2(GD.Randf()*100, GD.Randf()*100);
+
+			GeneratePlanet(name, mass, col, position, initialVelocity);
+		}
+		// GeneratePlanet("Earth", 100000, new Color(0, 1, 0.2f, 1), Vector2.Zero, 1.0f);
+		// GeneratePlanet("Moon", 20000, new Color(0.5f, 0.5f, 0.5f, 1), new Vector2(0, 250), 0.5f);
 
 		gameInitialized = true;
 		
 	}
-	private void GeneratePlanet(String Name, float Mass, Color color, Vector2 InitialVelocity, float Scale)
+	private void GeneratePlanet(String name, float mass, Color color, Vector2 Position, Vector2 initialVelocity)
 	{
-		var Planet = new Planet();
-		Planet = GetNode<Planet>(Name);
-		Planet.Mass = Mass;
-		Planet.ApplyColor(color);
+		Planet planet = PlanetScene.Instantiate<Planet>();
 
-		Planet.UpdateScale();
+		planet.Name = name;
+		planet.Mass = mass;
+		planet.Position = Position;
+		planet.LinearVelocity = initialVelocity;
+		
+		planet.ApplyColor(color);
 
-		Planet.LinearVelocity = InitialVelocity;
+		planet.UpdateScale();
 
-		AllPlanets.Add(Planet);
+		GD.Print($"Generated planet {planet.Name} @ {planet.Position} with velocity {planet.LinearVelocity}, mass {planet.Mass}, color {planet.color} and scale {planet.childScale}");
+		AllPlanets.Add(planet);
+		AddChild(planet);
 
 	}
 	private void ScaleRigidBody(RigidBody2D Body, float uniformScale)

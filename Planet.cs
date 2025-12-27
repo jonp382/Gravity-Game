@@ -14,6 +14,8 @@ public partial class Planet : RigidBody2D
 
 	public Color color;
 
+	public float childScale;
+
 	public bool shouldRemove = false;
 
 	private Player player;
@@ -21,44 +23,37 @@ public partial class Planet : RigidBody2D
 	private int ticksTouchingPlanet = 0;
 	public override void _Ready()
 	{
-		// float RandomFactor = Mathf.Clamp(GD.Randf() * 20, 1.0f, 20.0f);
-		Sprite2D Sprite =  GetNode<Sprite2D>("Sprite2D");
-		CollisionShape2D Collision = GetNode<CollisionShape2D>("CollisionShape2D");
-
-
-		Mass = 1;
-		// Vector2 ScaleFactor = new Vector2(Mathf.Max(RandomFactor/10, 0.5f), Mathf.Max(RandomFactor/10, 0.5f));
-		// Sprite.ApplyScale(ScaleFactor);
-		// Collision.ApplyScale(ScaleFactor);
 
 	}
 
 	public void ApplyColor(Color Col)
 	{
-		foreach(var node in GetChildren())
-		{
-			if(node is Sprite2D sprite)
-			{
-				sprite.Modulate = Col;
-				color = Col;
-				return;
-			}
-		}
+		Sprite2D sprite = GetNode<Sprite2D>("Sprite2D");
+		sprite.Modulate = Col;
+		color = Col;
+		GD.Print($"Set planet {Name} to color {Col}");
+		// return;
+		// foreach(var node in GetChildren(true))
+		// {
+		// 	if(node is Sprite2D sprite)
+		// 	{
+		// 	}
+		// }
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        if(!Main.gameInitialized) return;
+	public override void _PhysicsProcess(double delta)
+	{
+		if(!Main.gameInitialized) return;
 		if(player == null) player = Main.player;
 
 
-    }
+	}
 
 	public void UpdateScale()
 	{
 		float uniformScale = Mathf.Clamp(Mass/ReferenceMass, 0.1f, 10f);
 		// GD.Print($"Mass: {Mass} - Ratio: {Mass/ReferenceMass} - Scale: {uniformScale}");
-
+		childScale = uniformScale;
 		foreach(var Node in GetChildren())
 		{
 			if(Node is Sprite2D sprite) 
@@ -72,6 +67,7 @@ public partial class Planet : RigidBody2D
 			}
 			
 		}
+		
 	}
 
 	public void OnBodyEntered(Node NodeTouched)
