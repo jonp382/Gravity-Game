@@ -148,7 +148,7 @@ public partial class Main : Node
 
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
-			Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
+			// Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
 			
 
 		}
@@ -204,7 +204,7 @@ public partial class Main : Node
 			Body1.ApplyCentralForce(Force);
 			// Sprite2D Sprite1 = GetNode<Sprite2D>(Body1.Name + "/Sprite2D");
 			// Sprite1.Modulate
-			if(Body1 is not Planet) Body1.Modulate = Colors[i];
+			// if(Body1 is not Planet) Body1.Modulate = Colors[i];
 			
 		}
 
@@ -273,6 +273,10 @@ public partial class Main : Node
 		asteroid.Position = asteroidspawnLocation;
 
 		float RandomVelocity = 500f;
+
+		float randFactor = Mathf.Clamp(GD.Randf(), 0.4f, 1.0f);
+		Color newCol = new(randFactor, randFactor, randFactor, 1);
+		asteroid.Modulate = new Color(newCol);
 
 		asteroid.LinearVelocity = new Vector2(GD.Randf() * RandomVelocity - RandomVelocity/2, GD.Randf() * RandomVelocity - RandomVelocity/2);
 		
