@@ -16,7 +16,7 @@ public partial class Player : RigidBody2D
 
 	private float targetAngle = 0;
 
-	private Sprite2D Sprite;
+	private AnimatedSprite2D Sprite;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -25,7 +25,7 @@ public partial class Player : RigidBody2D
 		Hide();
 		Mass = 10;
 		Start(new Vector2(ScreenSize.X / 2, ScreenSize.Y / 2));
-		Sprite = GetNode<Sprite2D>("Sprite2D");
+		Sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
 	public void Start(Vector2 position)
@@ -40,8 +40,25 @@ public partial class Player : RigidBody2D
 		AdjustRotation();
 
 
-		if(Input.IsActionPressed("move_up")) 	ApplyCentralForce(thrust.Rotated(Rotation));
-		if(Input.IsActionPressed("move_down")) 	ApplyCentralForce(thrust.Rotated(Rotation + Mathf.Pi));
+		if(Input.IsActionPressed("move_up")) 	
+		{
+			ApplyCentralForce(thrust.Rotated(Rotation)); 
+			Sprite.Play();
+		}
+
+		if(Input.IsActionPressed("move_down"))
+		{
+			ApplyCentralForce(thrust.Rotated(Rotation + Mathf.Pi));
+			
+		}
+		if(Input.IsActionPressed("move_up") || Input.IsActionPressed("move_down"))
+		{
+			Sprite.Play();
+		}
+		else
+		{
+			Sprite.Stop();
+		}
 
 		if(Input.IsActionPressed("spacebar")) 
 		{
