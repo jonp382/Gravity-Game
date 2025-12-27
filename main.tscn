@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dgei3sdvi5j3i"]
+[gd_scene load_steps=11 format=3 uid="uid://dgei3sdvi5j3i"]
 
 [ext_resource type="Script" uid="uid://boctv7tc8sawt" path="res://Main.cs" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://ragkdgea1jvl" path="res://asteroid.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://bm2crvtoqylah" path="res://player.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://c4cdq04eg2ouh" path="res://planet.tscn" id="3_7mycd"]
+[ext_resource type="Script" uid="uid://b02fwhm6xqx54" path="res://Camera2d.cs" id="5_272bh"]
 [ext_resource type="PhysicsMaterial" uid="uid://dr6makdvj07fv" path="res://BorderWall.tres" id="5_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bbbl7kd0gfwea" path="res://hud.tscn" id="7_272bh"]
 
@@ -24,6 +25,7 @@ PlanetScene = ExtResource("3_7mycd")
 [node name="Player" parent="." instance=ExtResource("2_h2yge")]
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+script = ExtResource("5_272bh")
 
 [node name="StartTimer" type="Timer" parent="."]
 one_shot = true
