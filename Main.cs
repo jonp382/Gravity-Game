@@ -47,8 +47,7 @@ public partial class Main : Node
 		{
 			String name = "Planet " + i;
 			float mass = Math.Clamp(GD.Randf() * 500000, 10000, 500000);
-			Color col = new Color(GD.Randf() * 255, GD.Randf() * 255, GD.Randf() * 255, 1);
-			col = new Color(1,1,1,1);
+			Color col = new Color(GD.Randf(), GD.Randf(), GD.Randf(), 1);
 			Vector2 position = new Vector2(GD.Randf() * 10000, GD.Randf() * 10000);
 			Vector2 initialVelocity = new Vector2(GD.Randf()*100, GD.Randf()*100);
 
