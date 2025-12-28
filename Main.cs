@@ -21,6 +21,8 @@ public partial class Main : Node
 
 	public static bool gameInitialized = false;
 
+	public static readonly Rect2 Bounds = new Rect2(0, 0, 20000, 20000);
+
 	private Godot.Collections.Array<Node> AsteroidNodes = [];
 
 	public static List<Planet> AllPlanets = [];
@@ -48,8 +50,8 @@ public partial class Main : Node
 			String name = "Planet " + i;
 			float mass = Math.Clamp(GD.Randf() * 500000, 10000, 500000);
 			Color col = new Color(GD.Randf(), GD.Randf(), GD.Randf(), 1);
-			Vector2 position = new Vector2(GD.Randf() * 10000, GD.Randf() * 10000);
-			Vector2 initialVelocity = new Vector2(GD.Randf()*100, GD.Randf()*100);
+			Vector2 position = new Vector2(GD.Randf() * Bounds.Size.X - Bounds.Size.X/2, GD.Randf() * Bounds.Size.Y - Bounds.Size.Y/2);
+			Vector2 initialVelocity = new Vector2(GD.Randf()*200-100, GD.Randf()*200-100);
 
 			GeneratePlanet(name, mass, col, position, initialVelocity);
 		}
@@ -262,7 +264,7 @@ public partial class Main : Node
 	{
 		Asteroid asteroid = AsteroidScene.Instantiate<Asteroid>();
 
-		Vector2 asteroidspawnLocation = new(GD.Randf() * 20000 - 10000, GD.Randf() * 20000 - 10000);
+		Vector2 asteroidspawnLocation = new(GD.Randf() * Bounds.Size.X - Bounds.Size.X/2, GD.Randf() * Bounds.Size.Y - Bounds.Size.Y/2);
 
 		// if (asteroidspawnLocation.X <= 10) asteroidspawnLocation.X += 10;
 		// if (asteroidspawnLocation.X >= 1910) asteroidspawnLocation.X -= 10;
