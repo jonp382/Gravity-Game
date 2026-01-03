@@ -21,7 +21,7 @@ public partial class Main : Node
 
 	public static bool gameInitialized = false;
 
-	public static readonly Rect2 Bounds = new Rect2(0, 0, 20000, 20000);
+	public static readonly Rect2 Bounds = new Rect2(-10000, -10000, 20000, 20000); // (posX, posY, sizeX, sizeY)
 
 	private Godot.Collections.Array<Node> AsteroidNodes = [];
 
@@ -256,13 +256,13 @@ public partial class Main : Node
 
 		GD.Print($"Bounds size: {Bounds.Size}");
 
-		TopCollision.Position = new Vector2(0, Bounds.Size.Y / 2);
+		TopCollision.Position = new Vector2(0, Bounds.Position.Y);
 		GD.Print($"Placed Top World Border at {TopCollision.Position}");
-		BottomCollision.Position = new Vector2(0, -Bounds.Size.Y / 2);
+		BottomCollision.Position = new Vector2(0, Bounds.Position.Y + Bounds.Size.Y);
 		GD.Print($"Placed Bottom World Border at {BottomCollision.Position}");
-		LeftCollision.Position = new Vector2(-Bounds.Size.X / 2, 0);
+		LeftCollision.Position = new Vector2(Bounds.Position.X, 0);
 		GD.Print($"Placed Left World Border at {LeftCollision.Position}");
-		RightCollision.Position = new Vector2(Bounds.Size.X/2, 0);
+		RightCollision.Position = new Vector2(Bounds.Position.X + Bounds.Size.X, 0);
 		GD.Print($"Placed Right World Border at {RightCollision.Position}");
 	}
 
