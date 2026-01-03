@@ -108,7 +108,7 @@ public partial class Main : Node
 		};
 		AllBodies.AddRange(AllPlanets);
 
-		AllBodies.AddRange(AsteroidNodes.Cast<RigidBody2D>());
+		AllBodies.AddRange(AsteroidNodes.Cast<Asteroid>());
 		
 		int n = AllBodies.Count;
 
@@ -117,45 +117,45 @@ public partial class Main : Node
 		float[] masses = new float[n];
 		Color[] Colors = new Color[n];
 
-
-		for(int i = 0; i < n; i++)
+		List<RigidBody2D> BodiesToRemove = [];
+		foreach(RigidBody2D body in AllBodies)
 		{
+			if(body == null) BodiesToRemove.Add(body);
 
-			RigidBody2D Body;
-			try { Body = AllBodies[i]; } catch { continue; }
-			if(Body == null) 
-			{
-				AllBodies.RemoveAt(i);
-				continue;
-			}
-
-			if(Body is Planet planet)
-			{
-				if (planet.shouldRemove)
-				{
-					planet.QueueFree();
-					AllPlanets.Remove(planet);
-					AllBodies.RemoveAt(i);
-					continue;
-				}
-			}
-
-			if(Body is Asteroid asteroid)
+			if(body is Asteroid asteroid)
 			{
 				if (asteroid.shouldRemove)
 				{
-					asteroid.QueueFree();
-					AllBodies.RemoveAt(i);
-					continue;
+					BodiesToRemove.Add(asteroid);
+					try { asteroid.QueueFree(); } catch {}
 				}
 			}
+			if(body is Planet planet)
+			{
+				if (planet.shouldRemove)
+				{
+					BodiesToRemove.Add(planet);
+					try { planet.QueueFree(); } catch {}
+				}
+			}
+		}
+
+		AllBodies = AllBodies.Except(BodiesToRemove).ToList();
+		n = AllBodies.Count;
+
+		for(int i = 0; i < n; i++)
+		{
+			RigidBody2D Body = AllBodies[i];
 
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
 			// Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
-			
-
 		}
+
+		// List<Asteroid> AllRemovedAsteroids = (List<Asteroid>)AllBodies.Where(n => n is Asteroid ast && (ast == null || ast.shouldRemove));
+		// AllRemovedAsteroids.ForEach(n => n.QueueFree());
+		// AllBodies = AllBodies.Except(AllRemovedAsteroids).ToList();
+
 
 		n = AllBodies.Count;
 
