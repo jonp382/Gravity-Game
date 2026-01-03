@@ -254,10 +254,16 @@ public partial class Main : Node
 			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(5, Bounds.Size.Y);
 		}
 
-		TopCollision.Position = new Vector2(Bounds.Size.X / 2, 5);
-		BottomCollision.Position = new Vector2(-Bounds.Size.X / 2, Bounds.Size.Y - 5);
-		LeftCollision.Position = new Vector2(5, -Bounds.Size.Y / 2);
-		RightCollision.Position = new Vector2(Bounds.Size.X - 5, Bounds.Size.Y / 2);
+		GD.Print($"Bounds size: {Bounds.Size}");
+
+		TopCollision.Position = new Vector2(0, Bounds.Size.Y / 2);
+		GD.Print($"Placed Top World Border at {TopCollision.Position}");
+		BottomCollision.Position = new Vector2(0, -Bounds.Size.Y / 2);
+		GD.Print($"Placed Bottom World Border at {BottomCollision.Position}");
+		LeftCollision.Position = new Vector2(-Bounds.Size.X / 2, 0);
+		GD.Print($"Placed Left World Border at {LeftCollision.Position}");
+		RightCollision.Position = new Vector2(Bounds.Size.X/2, 0);
+		GD.Print($"Placed Right World Border at {RightCollision.Position}");
 	}
 
 	public Asteroid GenerateAsteroid()
