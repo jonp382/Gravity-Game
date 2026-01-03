@@ -34,8 +34,10 @@ public partial class Main : Node
 		GD.Print("Running Main.CS Ready()...");
 		ScreenSize = DisplayServer.WindowGetSize();
 
+
+		QuadTree TopTree = new(Bounds);
 		
-		SetWorldBoundaries(false); // set to false to disable world borders.
+		SetWorldBoundaries(true); // set to false to disable world borders.
 
 		for(int i = 0; i < MaxNumberOfAsteroids; i++)
 		{
@@ -244,20 +246,18 @@ public partial class Main : Node
 
 		foreach (CollisionShape2D Collision in HorizontalWorldBorders)
 		{
-			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(ScreenSize.X, 5);
+			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(Bounds.Size.X, 5);
 		}
 
 		foreach (CollisionShape2D Collision in VerticalWorldBorders)
 		{
-			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(5, ScreenSize.Y);
+			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(5, Bounds.Size.Y);
 		}
 
-		GD.Print($"Screen Size: {ScreenSize}");
-
-		TopCollision.Position = new Vector2(ScreenSize.X / 2, 5);
-		BottomCollision.Position = new Vector2(ScreenSize.X / 2, ScreenSize.Y - 5);
-		LeftCollision.Position = new Vector2(5, ScreenSize.Y / 2);
-		RightCollision.Position = new Vector2(ScreenSize.X - 5, ScreenSize.Y / 2);
+		TopCollision.Position = new Vector2(Bounds.Size.X / 2, 5);
+		BottomCollision.Position = new Vector2(-Bounds.Size.X / 2, Bounds.Size.Y - 5);
+		LeftCollision.Position = new Vector2(5, -Bounds.Size.Y / 2);
+		RightCollision.Position = new Vector2(Bounds.Size.X - 5, Bounds.Size.Y / 2);
 	}
 
 	public Asteroid GenerateAsteroid()
@@ -289,4 +289,85 @@ public partial class Main : Node
 		
 
 	}
+}
+
+public class QuadTree
+{
+	public Rect2 Bounds;
+	public int Capacity;
+	public Vector2 CenterOfMass;
+	public float MassApprox;
+	public List<RigidBody2D> Bodies;
+
+	public QuadTree[] Children;
+
+	public float Threshold = 1.0f;
+
+	public QuadTree(Rect2 Bounds)
+	{
+		this.Bounds = Bounds;
+	}
+
+	public void Subdivide()
+	{
+		Vector2 HalfSize = Bounds.Size / 2;
+		Vector2 center = Bounds.Position + HalfSize;
+		Children = new QuadTree[4];
+
+		// Top-left (NW)
+		Children[0] = new QuadTree(new Rect2(Bounds.Position, HalfSize));
+		// Top-right (NE)
+		Children[1] = new QuadTree(new Rect2(new Vector2(center.X, Bounds.Position.Y), HalfSize));
+		// Bottom-left (SW)
+		Children[2] = new QuadTree(new Rect2(new Vector2(Bounds.Position.X, center.Y), HalfSize));
+		// Bottom-right (SE)
+		Children[3] = new QuadTree(new Rect2(center, HalfSize));
+
+		foreach(var body in Bodies)
+		{
+			Insert(body);
+		}
+		Bodies.Clear();
+	}
+
+	private int GetQuadrant(Vector2 Position)
+	{
+		Vector2 center = Bounds.Position + Bounds.Size/2f;
+
+		if(Position.X < center.X)
+		{
+			// either 0 or 2 - NW or SW
+			if(Position.Y < center.Y) return 0;
+			else return 2;
+		}
+		else
+		{
+			// either 1 or 3 - NE or SE
+			if(Position.Y < center.Y) return 1;
+			else return 3;
+		}
+	}
+
+	public void Insert(RigidBody2D body)
+	{
+		Vector2 position = body.GlobalPosition;
+
+		if(!Bounds.HasPoint(position)) return;
+
+		if(Children != null)
+		{
+			int quadrant = GetQuadrant(position);
+			Children[quadrant].Insert(body);
+		}
+		else
+		{
+			Bodies.Add(body);
+
+			if(Bodies.Count > Capacity && Bounds.Size.X > 1f)
+			{
+				Subdivide();
+			}
+		}
+	}
+
 }
