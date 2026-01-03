@@ -135,6 +135,7 @@ public partial class Main : Node
 				if (planet.shouldRemove)
 				{
 					BodiesToRemove.Add(planet);
+					AllPlanets.Remove(planet);
 					try { planet.QueueFree(); } catch {}
 				}
 			}
@@ -151,11 +152,6 @@ public partial class Main : Node
 			masses[i] = Body.Mass;
 			// Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
 		}
-
-		// List<Asteroid> AllRemovedAsteroids = (List<Asteroid>)AllBodies.Where(n => n is Asteroid ast && (ast == null || ast.shouldRemove));
-		// AllRemovedAsteroids.ForEach(n => n.QueueFree());
-		// AllBodies = AllBodies.Except(AllRemovedAsteroids).ToList();
-
 
 		n = AllBodies.Count;
 
