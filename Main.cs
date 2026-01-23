@@ -13,7 +13,7 @@ public partial class Main : Node
 
 	public static Player player;
 	public static int MaxNumberOfAsteroids = 1000;
-	public static int MaxNumberOfPlanets = 10;
+	public static int MaxNumberOfPlanets = 20;
 
 	private int _score;
 
@@ -161,11 +161,14 @@ public partial class Main : Node
 			Vector2 Pos1 = positions[i];
 			float mass1 = masses[i];
 
+			bool isBodyOneAsteroid = AllBodies[i] is Asteroid;
+
 			 
 
 			for(int j = 0; j < n; j++)
 			{
 				if(i == j) continue;
+				if (AllPlanets.Count > 0 && isBodyOneAsteroid && AllBodies[j] is Asteroid) continue;
 				
 				Vector2 r = positions[j] - Pos1;
 
