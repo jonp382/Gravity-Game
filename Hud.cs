@@ -159,11 +159,14 @@ public partial class Hud : CanvasLayer
 			{
 				TextList.Add($"Mass: {Body.Mass:F0}");
 				TextList.Add($"Vel:  {Body.LinearVelocity.Length():F0}");
+				TextList.Add($"Pos: ({Body.Position.X:F0}, {Body.Position.Y:F0})");
 			}
 			if(CurrentHovered is Planet planet)
 			{
 				TextList.Add($"Scale: {planet.childScale:F3}");
 			}
+
+			
 
 			label.Text = String.Join("\n", TextList);
 		}

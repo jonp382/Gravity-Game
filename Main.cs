@@ -21,6 +21,8 @@ public partial class Main : Node
 
 	public static bool gameInitialized = false;
 
+	public static readonly Rect2 Bounds = new Rect2(-10000, -10000, 20000, 20000); // (posX, posY, sizeX, sizeY)
+
 	private Godot.Collections.Array<Node> AsteroidNodes = [];
 
 	public static List<Planet> AllPlanets = [];
@@ -32,8 +34,7 @@ public partial class Main : Node
 		GD.Print("Running Main.CS Ready()...");
 		ScreenSize = DisplayServer.WindowGetSize();
 
-		
-		SetWorldBoundaries(false); // set to false to disable world borders.
+		SetWorldBoundaries(true); // set to false to disable world borders.
 
 		for(int i = 0; i < MaxNumberOfAsteroids; i++)
 		{
@@ -48,8 +49,8 @@ public partial class Main : Node
 			String name = "Planet " + i;
 			float mass = Math.Clamp(GD.Randf() * 500000, 10000, 500000);
 			Color col = new Color(GD.Randf(), GD.Randf(), GD.Randf(), 1);
-			Vector2 position = new Vector2(GD.Randf() * 10000, GD.Randf() * 10000);
-			Vector2 initialVelocity = new Vector2(GD.Randf()*100, GD.Randf()*100);
+			Vector2 position = new Vector2(GD.Randf() * Bounds.Size.X - Bounds.Size.X/2, GD.Randf() * Bounds.Size.Y - Bounds.Size.Y/2);
+			Vector2 initialVelocity = new Vector2(GD.Randf()*200-100, GD.Randf()*200-100);
 
 			GeneratePlanet(name, mass, col, position, initialVelocity);
 		}
@@ -104,7 +105,7 @@ public partial class Main : Node
 		};
 		AllBodies.AddRange(AllPlanets);
 
-		AllBodies.AddRange(AsteroidNodes.Cast<RigidBody2D>());
+		AllBodies.AddRange(AsteroidNodes.Cast<Asteroid>());
 		
 		int n = AllBodies.Count;
 
@@ -113,44 +114,40 @@ public partial class Main : Node
 		float[] masses = new float[n];
 		Color[] Colors = new Color[n];
 
-
-		for(int i = 0; i < n; i++)
+		List<RigidBody2D> BodiesToRemove = [];
+		foreach(RigidBody2D body in AllBodies)
 		{
+			if(body == null) BodiesToRemove.Add(body);
 
-			RigidBody2D Body;
-			try { Body = AllBodies[i]; } catch { continue; }
-			if(Body == null) 
-			{
-				AllBodies.RemoveAt(i);
-				continue;
-			}
-
-			if(Body is Planet planet)
-			{
-				if (planet.shouldRemove)
-				{
-					planet.QueueFree();
-					AllPlanets.Remove(planet);
-					AllBodies.RemoveAt(i);
-					continue;
-				}
-			}
-
-			if(Body is Asteroid asteroid)
+			if(body is Asteroid asteroid)
 			{
 				if (asteroid.shouldRemove)
 				{
-					asteroid.QueueFree();
-					AllBodies.RemoveAt(i);
-					continue;
+					BodiesToRemove.Add(asteroid);
+					try { asteroid.QueueFree(); } catch {}
 				}
 			}
+			if(body is Planet planet)
+			{
+				if (planet.shouldRemove)
+				{
+					BodiesToRemove.Add(planet);
+					AllPlanets.Remove(planet);
+					try { planet.QueueFree(); } catch {}
+				}
+			}
+		}
+
+		AllBodies = AllBodies.Except(BodiesToRemove).ToList();
+		n = AllBodies.Count;
+
+		for(int i = 0; i < n; i++)
+		{
+			RigidBody2D Body = AllBodies[i];
 
 			positions[i] = Body.Position;
 			masses[i] = Body.Mass;
 			// Colors[i] = Color.FromHsv(Mathf.Clamp(Body.LinearVelocity.Length()/200, 0, 0.65f), 1, 1, 1);
-			
-
 		}
 
 		n = AllBodies.Count;
@@ -242,27 +239,31 @@ public partial class Main : Node
 
 		foreach (CollisionShape2D Collision in HorizontalWorldBorders)
 		{
-			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(ScreenSize.X, 5);
+			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(Bounds.Size.X, 5);
 		}
 
 		foreach (CollisionShape2D Collision in VerticalWorldBorders)
 		{
-			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(5, ScreenSize.Y);
+			if(Collision.Shape is RectangleShape2D rectangleCollision) rectangleCollision.Size = new Vector2(5, Bounds.Size.Y);
 		}
 
-		GD.Print($"Screen Size: {ScreenSize}");
+		GD.Print($"Bounds size: {Bounds.Size}");
 
-		TopCollision.Position = new Vector2(ScreenSize.X / 2, 5);
-		BottomCollision.Position = new Vector2(ScreenSize.X / 2, ScreenSize.Y - 5);
-		LeftCollision.Position = new Vector2(5, ScreenSize.Y / 2);
-		RightCollision.Position = new Vector2(ScreenSize.X - 5, ScreenSize.Y / 2);
+		TopCollision.Position = new Vector2(0, Bounds.Position.Y);
+		GD.Print($"Placed Top World Border at {TopCollision.Position}");
+		BottomCollision.Position = new Vector2(0, Bounds.Position.Y + Bounds.Size.Y);
+		GD.Print($"Placed Bottom World Border at {BottomCollision.Position}");
+		LeftCollision.Position = new Vector2(Bounds.Position.X, 0);
+		GD.Print($"Placed Left World Border at {LeftCollision.Position}");
+		RightCollision.Position = new Vector2(Bounds.Position.X + Bounds.Size.X, 0);
+		GD.Print($"Placed Right World Border at {RightCollision.Position}");
 	}
 
 	public Asteroid GenerateAsteroid()
 	{
 		Asteroid asteroid = AsteroidScene.Instantiate<Asteroid>();
 
-		Vector2 asteroidspawnLocation = new(GD.Randf() * 20000 - 10000, GD.Randf() * 20000 - 10000);
+		Vector2 asteroidspawnLocation = new(GD.Randf() * Bounds.Size.X - Bounds.Size.X/2, GD.Randf() * Bounds.Size.Y - Bounds.Size.Y/2);
 
 		// if (asteroidspawnLocation.X <= 10) asteroidspawnLocation.X += 10;
 		// if (asteroidspawnLocation.X >= 1910) asteroidspawnLocation.X -= 10;
