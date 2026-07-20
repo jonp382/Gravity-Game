@@ -12,8 +12,8 @@ public partial class Main : Node
 	[Export] public PackedScene PlanetScene { get; set; }
 
 	public static Player player;
-	public static int MaxNumberOfAsteroids = 1000;
-	public static int MaxNumberOfPlanets = 20;
+	public static int MaxNumberOfAsteroids = 500;
+	public static int MaxNumberOfPlanets = 5;
 
 	private int _score;
 
