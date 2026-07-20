@@ -14,3 +14,15 @@ The primary objective was to learn more about Godot.
 2. Clone the project
 3. Import the `project.godot` file into Godot.
 4. Hit "Run" on the side bar
+
+## Showcase
+<img width="1375" height="937" alt="image" src="https://github.com/user-attachments/assets/5f086eb1-faee-4003-b431-62a80c189f62" />
+
+
+
+https://github.com/user-attachments/assets/b87096d4-a773-42f2-bef8-5999566e8b84
+
+
+
+https://github.com/user-attachments/assets/62ec8085-4ab8-48d6-874d-fb35bc8168e5
+
