@@ -23,9 +23,11 @@ The primary objective was to learn more about Godot.
 Using Godot's physics engine, asteroids, planets and the player's space ship can collide with each other, with the resulting displacements depending on the mass of the contacting entities. A heavy asteroid will knock the ship far off course, but is negligible to a planet.
 
 The objects are pulled together using Newton's gravity equation
+
 $$
 F = G \frac{m_1 m_2}{r^2}
 $$
+
 With F being the force, G being the gravitational constant (which is a configurable property in this game), $m_1$ and $m_2$ being the mass of the two objects being pulled together, and $r^2$ being the squared distance between them.
 
 This equation gives rise to phenomena like orbital mechanics, which can be seen in the videos below. Note that this game does not feature any atmosphere, atmospheric drag etc., so true orbital decay is not simulated.
