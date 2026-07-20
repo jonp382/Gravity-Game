@@ -74,11 +74,7 @@ public partial class Planet : RigidBody2D
 		if(NodeTouched is Planet planet)
 		{
 			if(Object.ReferenceEquals(planet, this)) return;
-			GD.Print($"Touching {planet.Name}");
-
-			ticksTouchingPlanet++;
-			if(ticksTouchingPlanet % 2 != 0) return;
-
+			// GD.Print($"Touching {planet.Name}");
 			
 			List<Planet> BothPlanets = new List<Planet> {
 				this,
@@ -89,23 +85,19 @@ public partial class Planet : RigidBody2D
 			Planet LargerPlanet = BothPlanets.Last();
 			Planet SmallerPlanet = BothPlanets.First();
 
-			float MassDiff = SmallerPlanet.Mass / 2;
+			float MassDiff = SmallerPlanet.Mass;
 			if(MassDiff <= 0) return;
-
-			if(SmallerPlanet.Mass - MassDiff < 50)
-			{
-				// MassDiff *= 2;
-				SmallerPlanet.shouldRemove = true;
-			}
-
-			GD.Print($"B4 Larger Planet {LargerPlanet.Name} Mass: {LargerPlanet.Mass}, Smaller Planet {SmallerPlanet.Name} Mass: {SmallerPlanet.Mass}");
 
 			LargerPlanet.Mass += MassDiff;
 			SmallerPlanet.Mass -= MassDiff;
 			SmallerPlanet.UpdateScale();
 			LargerPlanet.UpdateScale();
 
-			GD.Print($"AF Larger Planet {LargerPlanet.Name} Mass: {LargerPlanet.Mass}, Smaller Planet {SmallerPlanet.Name} Mass: {SmallerPlanet.Mass}");
+			SmallerPlanet.shouldRemove = true;
+
+			// GD.Print($"B4 Larger Planet {LargerPlanet.Name} Mass: {LargerPlanet.Mass}, Smaller Planet {SmallerPlanet.Name} Mass: {SmallerPlanet.Mass}");
+
+			// GD.Print($"AF Larger Planet {LargerPlanet.Name} Mass: {LargerPlanet.Mass}, Smaller Planet {SmallerPlanet.Name} Mass: {SmallerPlanet.Mass}");
 
 			
 			
