@@ -6,7 +6,7 @@ The program spawns in a couple planets and many asteroids that all use Newtonian
 
 The primary objective was to learn more about Godot. 
 
-
+<img width="1375" height="937" alt="image" src="https://github.com/user-attachments/assets/5f086eb1-faee-4003-b431-62a80c189f62" />
 
 ## How to Run
 
@@ -14,10 +14,6 @@ The primary objective was to learn more about Godot.
 2. Clone the project
 3. Import the `project.godot` file into Godot.
 4. Hit "Run" on the side bar
-
-## Showcase
-<img width="1375" height="937" alt="image" src="https://github.com/user-attachments/assets/5f086eb1-faee-4003-b431-62a80c189f62" />
-
 
 ## Technical Info
 Using Godot's physics engine, asteroids, planets and the player's space ship can collide with each other, with the resulting displacements depending on the mass of the contacting entities. A heavy asteroid will knock the ship far off course, but is negligible to a planet.
